@@ -1,0 +1,25 @@
+# Build artifacts
+build/
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+
+# Executables and libraries
+sdl_template
+*.o
+*.a
+*.so
+*.dylib
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
