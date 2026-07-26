@@ -1,6 +1,8 @@
 #include "SDLApp.hpp"
 #include <iostream>
 
+#include "triangle.hpp"
+
 SDLApp::SDLApp() {
     this->sdlWindow = NULL;
     this->sdlRenderer = NULL;
@@ -42,6 +44,8 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
+    EquilateralTriangle triangle({100, 250}, 200);
+
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -53,6 +57,7 @@ int SDLApp::run() {
         SDL_RenderClear(this->sdlRenderer);
 
         // Render stuff here
+        triangle.render(this->sdlRenderer);
 
         SDL_RenderPresent(this->sdlRenderer);
     }

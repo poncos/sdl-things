@@ -1,0 +1,29 @@
+#include "triangle.hpp"
+
+#include <iostream>
+
+EquilateralTriangle::EquilateralTriangle(struct Point initialVertex, int height) {
+    this->initialVertex = initialVertex;
+    this->height = height;
+}
+
+EquilateralTriangle::~EquilateralTriangle() {
+    // Destructor implementation (if needed)
+}
+
+void EquilateralTriangle::render(SDL_Renderer* renderer) {
+    // Calculate the vertices of the equilateral triangle
+    struct Point vertex1 = this->initialVertex;
+    struct Point vertex2 = {this->initialVertex.x + this->height, this->initialVertex.y};
+    struct Point vertex3 = {this->initialVertex.x + this->height / 2, static_cast<float>(this->initialVertex.y - (this->height * sqrt(3) / 2))};
+
+    std::cout << "Rendering triangle with vertices: (" << vertex1.x << ", " << vertex1.y << "), ("
+              << vertex2.x << ", " << vertex2.y << "), ("
+              << vertex3.x << ", " << vertex3.y << ")" << std::endl;
+
+    // Draw the triangle using SDL_RenderDrawLine
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // Set color to red
+    SDL_RenderDrawLine(renderer, vertex1.x, vertex1.y, vertex2.x, vertex2.y);
+    SDL_RenderDrawLine(renderer, vertex2.x, vertex2.y, vertex3.x, vertex3.y);
+    SDL_RenderDrawLine(renderer, vertex3.x, vertex3.y, vertex1.x, vertex1.y);
+}

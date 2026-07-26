@@ -13,6 +13,7 @@ pkg_check_modules(SDL2 REQUIRED sdl2)
 set(SOURCES
     sdl_template.cpp
     SDLApp.cpp
+    triangle.cpp
 )
 
 # Create executable
