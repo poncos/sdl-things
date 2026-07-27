@@ -18,7 +18,7 @@ int SDLApp::init() {
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
         SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, 640, 480,
+        SDL_WINDOWPOS_UNDEFINED, 900, 900,
         SDL_WINDOW_SHOWN
     );
     if (this->sdlWindow == NULL) {
@@ -44,7 +44,7 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
-    EquilateralTriangle triangle({100, 250}, 200);
+    EquilateralTriangle triangle({25,850}, 850);
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {

@@ -21,9 +21,17 @@ void EquilateralTriangle::render(SDL_Renderer* renderer) {
               << vertex2.x << ", " << vertex2.y << "), ("
               << vertex3.x << ", " << vertex3.y << ")" << std::endl;
 
+    SDL_Vertex vertices[3];
+    vertices[0] = {vertex1.x, vertex1.y};
+    vertices[1] = {vertex2.x, vertex2.y};
+    vertices[2] = {vertex3.x, vertex3.y};
+
+    SDL_RenderGeometry(renderer, NULL, vertices, 3, NULL, 0);
     // Draw the triangle using SDL_RenderDrawLine
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // Set color to red
-    SDL_RenderDrawLine(renderer, vertex1.x, vertex1.y, vertex2.x, vertex2.y);
-    SDL_RenderDrawLine(renderer, vertex2.x, vertex2.y, vertex3.x, vertex3.y);
-    SDL_RenderDrawLine(renderer, vertex3.x, vertex3.y, vertex1.x, vertex1.y);
+    // SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF); // Set color to red
+    // SDL_RenderDrawLine(renderer, vertex1.x, vertex1.y, vertex2.x, vertex2.y);
+    // SDL_RenderDrawLine(renderer, vertex2.x, vertex2.y, vertex3.x, vertex3.y);
+    // SDL_RenderDrawLine(renderer, vertex3.x, vertex3.y, vertex1.x, vertex1.y);
+
+
 }
