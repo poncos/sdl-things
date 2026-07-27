@@ -44,7 +44,7 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
-    EquilateralTriangle triangle({25,850}, 850);
+    EquilateralTriangle triangle({450, 100}, 750);
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
