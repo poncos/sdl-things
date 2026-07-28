@@ -18,7 +18,7 @@ int SDLApp::init() {
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
         SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, 900, 900,
+        SDL_WINDOWPOS_UNDEFINED, 1100, 900,
         SDL_WINDOW_SHOWN
     );
     if (this->sdlWindow == NULL) {
@@ -44,22 +44,34 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
-    EquilateralTriangle triangle({450, 100}, 750);
+    EquilateralTriangle triangle_0({550, 25}, 850);
+
+    std::vector<EquilateralTriangle> black_triangles;
+    black_triangles.push_back(triangle_0);
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 this->running = false;
-            }
+            } else if (e.type == SDL_KEYDOWN) {
+                    SDL_Keycode key = e.key.keysym.sym;
+                    if (key == SDLK_q || key == SDLK_ESCAPE || key == SDLK_q) {
+                        std::cout << "Key Q pressed (KEYDOWN)" << std::endl;
+                        this->running = false;
+                    }
+                }
         }
 
         SDL_SetRenderDrawColor(this->sdlRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(this->sdlRenderer);
 
         // Render stuff here
-        triangle.render(this->sdlRenderer);
+        for (auto& triangle : black_triangles) {
+            triangle.render(this->sdlRenderer);
+        }
 
         SDL_RenderPresent(this->sdlRenderer);
+        SDL_Delay(10);
     }
 
     return 0;
