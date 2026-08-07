@@ -14,6 +14,7 @@ set(SOURCES
     sdl_template.cpp
     SDLApp.cpp
     triangle.cpp
+    sierpinski_triangle.cpp
 )
 
 # Create executable

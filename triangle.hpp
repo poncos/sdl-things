@@ -14,6 +14,8 @@ public:
 
     void render(SDL_Renderer* renderer);
 
-    struct Point initialVertex;
+    struct Point vertex1;
+    struct Point vertex2;
+    struct Point vertex3;
     int height;
 };

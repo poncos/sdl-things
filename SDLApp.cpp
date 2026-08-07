@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "triangle.hpp"
+#include "sierpinski_triangle.hpp"
 
 SDLApp::SDLApp() {
     this->sdlWindow = NULL;
@@ -45,9 +46,7 @@ int SDLApp::run() {
     SDL_Event e;
 
     EquilateralTriangle triangle_0({550, 25}, 850);
-
-    std::vector<EquilateralTriangle> black_triangles;
-    black_triangles.push_back(triangle_0);
+    SierpinskiTriangle sierpinski(triangle_0);
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
@@ -59,6 +58,10 @@ int SDLApp::run() {
                         std::cout << "Key Q pressed (KEYDOWN)" << std::endl;
                         this->running = false;
                     }
+                    if (key == SDLK_n) {
+                        std::cout << "Key N pressed (KEYDOWN)" << std::endl;
+                        sierpinski.iterate();
+                    }
                 }
         }
 
@@ -66,7 +69,7 @@ int SDLApp::run() {
         SDL_RenderClear(this->sdlRenderer);
 
         // Render stuff here
-        for (auto& triangle : black_triangles) {
+        for (auto& triangle : sierpinski.getBlackTriangles()) {
             triangle.render(this->sdlRenderer);
         }
 
