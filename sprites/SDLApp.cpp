@@ -1,5 +1,6 @@
 #include "SDLApp.hpp"
 #include "SpriteComponent.hpp"
+#include "SpriteSheetComponent.hpp"
 
 #include <iostream>
 
@@ -68,6 +69,18 @@ int SDLApp::run() {
     SpriteComponent sprite(1.0f, {100, 100});
     sprite.setTexture(bubbleTexture);
 
+    std::vector<SDL_Texture*> textures = {
+        
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_1.png"),
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_2.png"),
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_3.png"),
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_4.png"),
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_5.png"),
+        this->createTexture(this->sdlRenderer, "assets/spinning_coin_6.png")
+    };
+    SpriteSheetComponent spinningCoin(1.0f, {300, 100}, 1);
+    spinningCoin.setTextureList(textures);
+
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
@@ -86,6 +99,8 @@ int SDLApp::run() {
 
         // Render your content here
         sprite.render(this->sdlRenderer);
+        spinningCoin.update(0.1f);
+        spinningCoin.render(this->sdlRenderer);
 
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(10);

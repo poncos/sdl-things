@@ -14,7 +14,8 @@ public:
     SpriteComponent(float scale = 1, struct Point position = {0, 0}) :
         scale(scale), texture(nullptr), position(position) { }
     ~SpriteComponent();
-    void render(SDL_Renderer* renderer);
+    virtual void update(float deltaTime) {};
+    virtual void render(SDL_Renderer* renderer);
     void setTexture(SDL_Texture* texture);
 
 protected:

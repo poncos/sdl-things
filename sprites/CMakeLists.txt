@@ -14,6 +14,7 @@ set(SOURCES
     main.cpp
     SDLApp.cpp
     SpriteComponent.cpp
+    SpriteSheetComponent.cpp
 )
 
 # Create executable
