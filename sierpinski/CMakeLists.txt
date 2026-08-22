@@ -5,9 +5,9 @@ project(sdl_template)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Find SDL2 using pkg-config on macOS/Homebrew
+# Find SDL3 using pkg-config on macOS/Homebrew
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL3 REQUIRED sdl3)
 
 # Source files
 set(SOURCES
@@ -20,6 +20,6 @@ set(SOURCES
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_directories(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARY_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${SDL3_INCLUDE_DIRS})
+target_link_directories(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARIES})

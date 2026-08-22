@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 struct Point {
     float x;
@@ -17,5 +17,6 @@ public:
     struct Point vertex1;
     struct Point vertex2;
     struct Point vertex3;
+    
     int height;
 };
