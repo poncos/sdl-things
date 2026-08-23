@@ -21,10 +21,11 @@ void EquilateralTriangle::render(SDL_Renderer* renderer) {
               << vertex2.x << ", " << vertex2.y << "), ("
               << vertex3.x << ", " << vertex3.y << ") and height: " << this->height << std::endl;
 
-    SDL_Vertex vertices[3];
-    vertices[0] = {vertex1.x, vertex1.y};
-    vertices[1] = {vertex2.x, vertex2.y};
-    vertices[2] = {vertex3.x, vertex3.y};
+        SDL_Vertex* vertices = new SDL_Vertex[3];
+        vertices[0] = {vertex1.x, vertex1.y};
+        vertices[1] = {vertex2.x, vertex2.y};
+        vertices[2] = {vertex3.x, vertex3.y};
 
-    SDL_RenderGeometry(renderer, NULL, vertices, 3, NULL, 0);
+        SDL_RenderGeometry(renderer, NULL, vertices, 3, NULL, 0);
+
 }

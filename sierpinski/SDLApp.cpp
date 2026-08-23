@@ -11,17 +11,17 @@ SDLApp::SDLApp() {
 }
 
 int SDLApp::init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
         std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, 1100, 900,
-        SDL_WINDOW_SHOWN
+        1100, 900,
+        SDL_WINDOW_RESIZABLE
     );
+
     if (this->sdlWindow == NULL) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -29,8 +29,7 @@ int SDLApp::init() {
 
     this->sdlRenderer = SDL_CreateRenderer(
         this->sdlWindow,
-        -1,
-        SDL_RENDERER_ACCELERATED
+        NULL
     );
 
     if (this->sdlRenderer == NULL) {
@@ -50,15 +49,15 @@ int SDLApp::run() {
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
+            if (e.type == SDL_EVENT_QUIT) {
                 this->running = false;
-            } else if (e.type == SDL_KEYDOWN) {
-                    SDL_Keycode key = e.key.keysym.sym;
-                    if (key == SDLK_q || key == SDLK_ESCAPE || key == SDLK_q) {
+            } else if (e.type == SDL_EVENT_KEY_DOWN) {
+                    SDL_Keycode key = e.key.key;
+                    if (key == SDLK_Q || key == SDLK_ESCAPE) {
                         std::cout << "Key Q pressed (KEYDOWN)" << std::endl;
                         this->running = false;
                     }
-                    if (key == SDLK_n) {
+                    if (key == SDLK_N) {
                         std::cout << "Key N pressed (KEYDOWN)" << std::endl;
                         sierpinski.iterate();
                     }
@@ -68,17 +67,17 @@ int SDLApp::run() {
         SDL_SetRenderDrawColor(this->sdlRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(this->sdlRenderer);
 
-        // Render stuff here
         for (auto& triangle : sierpinski.getBlackTriangles()) {
             triangle.render(this->sdlRenderer);
         }
-
+        
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(10);
     }
 
     return 0;
 }
+
 
 SDLApp::~SDLApp() {
     if (this->sdlRenderer != NULL) {

@@ -9,17 +9,17 @@ SDLApp::SDLApp() {
 }
 
 int SDLApp::init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
         std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, 1100, 900,
-        SDL_WINDOW_SHOWN
+        1100, 900,
+        SDL_WINDOW_RESIZABLE
     );
+
     if (this->sdlWindow == NULL) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -27,8 +27,7 @@ int SDLApp::init() {
 
     this->sdlRenderer = SDL_CreateRenderer(
         this->sdlWindow,
-        -1,
-        SDL_RENDERER_ACCELERATED
+        NULL
     );
 
     if (this->sdlRenderer == NULL) {
@@ -44,16 +43,16 @@ int SDLApp::run() {
     SDL_Event e;
 
     while (this->running) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) {
                 this->running = false;
-            } else if (e.type == SDL_KEYDOWN) {
-                    SDL_Keycode key = e.key.keysym.sym;
-                    if (key == SDLK_q || key == SDLK_ESCAPE || key == SDLK_q) {
-                        std::cout << "Key Q pressed (KEYDOWN)" << std::endl;
-                        this->running = false;
-                    }
+            } else if (e.type == SDL_EVENT_KEY_DOWN) {
+                SDL_Keycode key = e.key.key;
+                if (key == SDLK_Q || key == SDLK_ESCAPE) {
+                    std::cout << "Key Q or ESC pressed (KEYDOWN)" << std::endl;
+                    this->running = false;
                 }
+            }
         }
 
         SDL_SetRenderDrawColor(this->sdlRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
