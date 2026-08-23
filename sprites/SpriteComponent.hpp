@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 struct Point {
     float x;
@@ -18,8 +18,8 @@ public:
     virtual void render(SDL_Renderer* renderer);
     void setTexture(SDL_Texture* texture);
 
-protected:
-    SDL_RendererFlip flip = SDL_FLIP_NONE;
+// protected:
+//     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 private:
     SDL_Texture* texture;

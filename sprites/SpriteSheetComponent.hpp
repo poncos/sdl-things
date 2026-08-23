@@ -2,7 +2,7 @@
 
 #include "SpriteComponent.hpp"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 
 // TODO LEARN: public inheritance vs private inheritance
