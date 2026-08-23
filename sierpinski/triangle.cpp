@@ -1,12 +1,13 @@
 #include "triangle.hpp"
 
 #include <iostream>
+#include <cmath>
 
 EquilateralTriangle::EquilateralTriangle(struct Point initialVertex, int height) {
     this->vertex1 = initialVertex;
     this->height = height;
 
-    float c = this->height / sqrt(3); // Calculate the horizontal distance for the base vertices
+    float c = this->height / std::sqrt(3); // Calculate the horizontal distance for the base vertices
 
     this->vertex2 = {this->vertex1.x - c , this->vertex1.y + this->height};
     this->vertex3 = {this->vertex1.x + c , this->vertex1.y + this->height};

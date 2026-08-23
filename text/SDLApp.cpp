@@ -44,7 +44,8 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
-    Font myFont("/System/Library/Fonts/Supplemental/Arial.ttf");
+    //TODO set the path to the TTF font to use
+    Font myFont("/usr/share/fonts/truetype/ancient-scripts/Symbola_hint.ttf", 20);
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
@@ -73,11 +74,11 @@ int SDLApp::run() {
             SDL_PropertiesID props = SDL_GetTextureProperties(textTexture);
             if (props == 0) {
                 std::cerr << "Failed to get texture properties: " << SDL_GetError() << std::endl;
-                return;
+                return 0;
             }
 
-            int textureWidth = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_WIDTH_NUMBER, -1);
-            int textureHeight = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_HEIGHT_NUMBER, -1);
+            float textureWidth = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_WIDTH_NUMBER, -1);
+            float textureHeight = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_HEIGHT_NUMBER, -1);
             SDL_FRect textRect = { 10, 10, textureWidth, textureHeight };
             SDL_RenderTexture(this->sdlRenderer, textTexture, NULL, &textRect);
             SDL_DestroyTexture(textTexture);

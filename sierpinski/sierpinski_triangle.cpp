@@ -1,6 +1,7 @@
 #include "sierpinski_triangle.hpp"
 
 #include <iostream>
+#include <cmath>
 
 SierpinskiTriangle::SierpinskiTriangle(const EquilateralTriangle initialTriangle) {
     this->blackTriangles.push_back(initialTriangle);
@@ -26,7 +27,7 @@ std::vector<EquilateralTriangle> SierpinskiTriangle::splitTriangle(const Equilat
     std::vector<EquilateralTriangle> newTriangles;
     
     float newHeight = triangle.height / 2.0f; // Calculate the new height for the smaller triangles
-    float c2 = newHeight / sqrt(3); // Calculate the horizontal distance for the
+    float c2 = newHeight / std::sqrt(3); // Calculate the horizontal distance for the
 
     struct Point vertex1 = triangle.vertex1;
     struct Point vertex2 = {vertex1.x - c2, vertex1.y + newHeight};

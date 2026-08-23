@@ -1,7 +1,7 @@
 #include "Font.hpp"
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <iostream>
 #include <string>
 
@@ -11,14 +11,14 @@ Font::Font(const std::string& fileName, int fontSize) {
 
     // Initialize the font library
     if (TTF_Init() == -1) {
-        std::cerr << "Failed to initialize TTF: " << TTF_GetError() << std::endl;
+        std::cerr << "Failed to initialize TTF: " << SDL_GetError() << std::endl;
         return;
     }
 
     // Load the font
     this->font = TTF_OpenFont(fileName.c_str(), 20);
     if (!this->font) {
-        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
+        std::cerr << "Failed to load font: " << SDL_GetError() << std::endl;
     }
 }
 
@@ -44,15 +44,15 @@ SDL_Texture* Font::RenderText(
     SDL_Color sdlColor = { static_cast<Uint8>(color.x * 255),
                            static_cast<Uint8>(color.y * 255),
                            static_cast<Uint8>(color.z * 255) };
-    SDL_Surface* surface = TTF_RenderText_Solid(this->font, text.c_str(), sdlColor);
+    SDL_Surface* surface = TTF_RenderText_Solid(this->font, text.c_str(), 0 ,sdlColor);
     if (!surface) {
-        std::cerr << "Failed to create text surface: " << TTF_GetError() << std::endl;
+        std::cerr << "Failed to create text surface: " << SDL_GetError() << std::endl;
         return nullptr;
     }
 
     // Create a texture from the surface
     SDL_Texture* texture = SDL_CreateTextureFromSurface(sdlRenderer, surface);
-    SDL_FreeSurface(surface);
+    SDL_DestroySurface(surface);
 
     if (!texture) {
         std::cerr << "Failed to create texture from surface: " << SDL_GetError() << std::endl;
