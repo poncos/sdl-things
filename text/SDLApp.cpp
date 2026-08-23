@@ -11,17 +11,17 @@ SDLApp::SDLApp() {
 }
 
 int SDLApp::init() {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
         std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, 1100, 900,
-        SDL_WINDOW_SHOWN
+        1100, 900,
+        SDL_WINDOW_RESIZABLE
     );
+
     if (this->sdlWindow == NULL) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -29,8 +29,7 @@ int SDLApp::init() {
 
     this->sdlRenderer = SDL_CreateRenderer(
         this->sdlWindow,
-        -1,
-        SDL_RENDERER_ACCELERATED
+        NULL
     );
 
     if (this->sdlRenderer == NULL) {
@@ -49,11 +48,11 @@ int SDLApp::run() {
 
     while (this->running) {
         while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
+            if (e.type == SDL_EVENT_QUIT) {
                 this->running = false;
-            } else if (e.type == SDL_KEYDOWN) {
-                    SDL_Keycode key = e.key.keysym.sym;
-                    if (key == SDLK_q || key == SDLK_ESCAPE || key == SDLK_q) {
+            } else if (e.type == SDL_EVENT_KEY_DOWN) {
+                    SDL_Keycode key = e.key.key;
+                    if (key == SDLK_Q || key == SDLK_ESCAPE) {
                         std::cout << "Key Q pressed (KEYDOWN)" << std::endl;
                         this->running = false;
                     }
@@ -67,9 +66,20 @@ int SDLApp::run() {
         SDL_Texture* textTexture = myFont.RenderText(this->sdlRenderer, "Hello, SDL!", {0.0f, 0.0f, 0.0f}, 50);
 
         if (textTexture) {
-            SDL_Rect textRect = { 10, 10, 0, 0 };
-            SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
-            SDL_RenderCopy(this->sdlRenderer, textTexture, NULL, &textRect);
+            
+            // SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
+            // SDL_RenderCopy(this->sdlRenderer, textTexture, NULL, &textRect);
+            // SDL_DestroyTexture(textTexture);
+            SDL_PropertiesID props = SDL_GetTextureProperties(textTexture);
+            if (props == 0) {
+                std::cerr << "Failed to get texture properties: " << SDL_GetError() << std::endl;
+                return;
+            }
+
+            int textureWidth = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_WIDTH_NUMBER, -1);
+            int textureHeight = SDL_GetNumberProperty(props, SDL_PROP_TEXTURE_HEIGHT_NUMBER, -1);
+            SDL_FRect textRect = { 10, 10, textureWidth, textureHeight };
+            SDL_RenderTexture(this->sdlRenderer, textTexture, NULL, &textRect);
             SDL_DestroyTexture(textTexture);
         }
 
