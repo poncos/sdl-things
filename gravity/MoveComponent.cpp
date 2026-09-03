@@ -1,6 +1,11 @@
 #include "MoveComponent.hpp"
 
+#include <iostream>
+
 void MoveComponent::update(float deltaTime) {
+    std::cout << "MoveComponent::update with deltaTime: " << deltaTime  << " ge: " << this->gravityEnabled <<
+        " Velocity: (" << this->velocity.x << ", " << this->velocity.y << ")" << 
+        " New position: (" << this->position.x << ", " << this->position.y << ")" << std::endl;
     if (this->gravityEnabled) {
         this->velocity.y += GRAVITY * deltaTime;
     }
@@ -31,11 +36,14 @@ void MoveComponent::update(float deltaTime) {
             break;
     }
     
-    this->position.x += this->direction.x * this->velocity.x * deltaTime;
-    this->position.y += this->direction.y * this->velocity.y * deltaTime;
+    this->position.x += this->velocity.x * deltaTime;
+    this->position.y += this->velocity.y * deltaTime;
 }
 
 enum Direction MoveComponent::checkBounds() {
+
+    if (this->screenBounds.x <= 0 || this->screenBounds.y <= 0)
+        return Direction::NONE;
 
     if (this->position.x < 0) {
         return Direction::LEFT;

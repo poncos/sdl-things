@@ -11,6 +11,7 @@ pkg_check_modules(SDL3 REQUIRED sdl3)
 
 # Source files
 set(SOURCES
+    MoveComponent.cpp
     main.cpp
     SDLApp.cpp
 )

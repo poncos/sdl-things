@@ -1,6 +1,7 @@
 #include "SDLApp.hpp"
 #include <iostream>
 
+#include "MoveComponent.hpp"
 
 SDLApp::SDLApp() {
     this->sdlWindow = NULL;
@@ -43,19 +44,19 @@ int SDLApp::init() {
 
 int SDLApp::run() {
     SDL_Event e;
-     
+    
     while (this->running) {
-
-        // We want to draw about 60 Frames Per Second (60 FPS).
+         // We want to draw about 60 Frames Per Second (60 FPS).
         // So we wait until 16 milliseconds have passed since the last frame
         uint32_t frameStart = this->sdTimeWait(this->mTicksCount + FRAME_DELAY_MS);
-        float deltaTimeSeconds = (frameStart - this->mTicksCount) / 1000.0f;
-        this->mTicksCount = frameStart;
+        float deltaTimeSeconds = (frameStart - this->mTicksCount) / 1000.0;
         std::cout << "Preparing Frame with delta time: " << deltaTimeSeconds << " (seconds)" << std::endl;
         //  END 
         
         this->handleInputs();
         this->render();
+        this->moveComponent.update(deltaTimeSeconds);
+        this->mTicksCount = frameStart;
     }
 
     return 0;
@@ -66,7 +67,11 @@ int SDLApp::render() {
     SDL_RenderClear(this->sdlRenderer);
 
     // Render your content here
+    this->object.x = this->moveComponent.getPosition().x;
+    this->object.y = this->moveComponent.getPosition().y;
 
+    SDL_SetRenderDrawColor(this->sdlRenderer, 0xFF, 0x00, 0x00, 0xFF);
+    SDL_RenderFillRect(this->sdlRenderer, &this->object);
     SDL_RenderPresent(this->sdlRenderer);
     return 0;
 }
