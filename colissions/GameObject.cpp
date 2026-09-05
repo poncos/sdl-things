@@ -3,7 +3,7 @@
 GameObject::GameObject(struct Vector2DF position, struct Vector2DF dimensions)
     : position(position), dimensions(dimensions) {
     // Initialize the bounding box component
-    this->boundingBox = new SquareBoundingBoxComponent(this);
+    this->boundingBox = new SquareBoundingBox(this);
 }
 
 GameObject::~GameObject() {

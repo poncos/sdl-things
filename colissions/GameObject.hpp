@@ -8,7 +8,7 @@
 class GameObject {
 public:
     GameObject(struct Vector2DF position, struct Vector2DF dimensions);
-    virtual ~GameObject() { }
+    virtual ~GameObject();
 
     virtual void update(float deltaTime) = 0;
     virtual void render(SDL_Renderer* renderer) = 0;

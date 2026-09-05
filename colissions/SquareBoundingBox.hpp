@@ -14,10 +14,13 @@ public:
     };
 
     SquareBoundingBox(class GameObject* owner): owner(owner) { }
-    CollisionType intersect(const SquareBoundingBox& a, const SquareBoundingBox& b);
+    CollisionType intersect(const SquareBoundingBox& b);
+
+    Vector2DF getPosition() const;
+    Vector2DF getDimensions() const;
 
 private:
     class GameObject* owner;
-    bool hasIntersect(const class SquareBoundingBox& a, const class SquareBoundingBox& b);
+    bool hasIntersect(const class SquareBoundingBox& b);
 
 };
