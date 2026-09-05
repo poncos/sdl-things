@@ -4,17 +4,29 @@ GameObject::GameObject(struct Vector2DF position, struct Vector2DF dimensions)
     : position(position), dimensions(dimensions) {
     // Initialize the bounding box component
     this->boundingBox = new SquareBoundingBox(this);
+    this->moveComponent = new MoveComponent(this, {0, 0}, true, {1100, 900}, MoveComponent::ScreenBoundBehavior::WRAP_AROUND);
+
 }
 
 GameObject::~GameObject() {
     // Destructor implementation (if needed)
     delete this->boundingBox;
+    delete this->moveComponent;
 }
 
 void GameObject::update(float deltaTime) {
-    // Update logic for the game object
+    this->moveComponent->update(deltaTime);
+    
 }
 
 void GameObject::render(SDL_Renderer* renderer) {
     // Render logic for the game object
+    SDL_FRect rect;
+    rect.x = static_cast<float>(this->position.x);
+    rect.y = static_cast<float>(this->position.y);
+    rect.w = static_cast<float>(this->dimensions.x);
+    rect.h = static_cast<float>(this->dimensions.y);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Set color to red
+    SDL_RenderFillRect(renderer, &rect);
 }

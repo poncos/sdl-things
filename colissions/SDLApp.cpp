@@ -1,4 +1,7 @@
 #include "SDLApp.hpp"
+
+#include "GameObject.hpp"
+
 #include <iostream>
 
 
@@ -41,8 +44,14 @@ int SDLApp::init() {
 
 int SDLApp::run() {
     SDL_Event e;
-
+    uint32_t lastTime = SDL_GetTicks();
+    GameObject* myObject = new GameObject({100, 100}, {50, 50});
+            ;
     while (this->running) {
+        uint32_t currentTime = SDL_GetTicks();
+        float deltaTime = (currentTime - lastTime) / 1000.0f;
+        lastTime = currentTime;
+
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 this->running = false;
@@ -59,9 +68,10 @@ int SDLApp::run() {
         SDL_RenderClear(this->sdlRenderer);
 
         // Render your content here
-
+        myObject->update(deltaTime);
+        myObject->render(this->sdlRenderer);
         SDL_RenderPresent(this->sdlRenderer);
-        SDL_Delay(10);
+        SDL_Delay(15);
     }
 
     return 0;

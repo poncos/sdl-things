@@ -19,40 +19,64 @@ void MoveComponent::update(float deltaTime) {
     
 
     enum Direction boundsCheck = this->checkBounds(position, objectDimensions);
-    switch (boundsCheck) {
+    if (boundsCheck != Direction::NONE) {
+        switch (boundsCheck) {
         case Direction::UP:
             std::cout << "MoveComponent::update UP bounds check" << std::endl;
-            if (this->speed.y < 0) {
+            if (this->screenBoundBehavior == ScreenBoundBehavior::WRAP_AROUND) {
                 position.y = 0;
-                this->speed.y = 0;
+                this->speed.y *= -1;
+            } else if (this->screenBoundBehavior == ScreenBoundBehavior::STOP_AT_BOUNDS) {
+                if (this->speed.y < 0) {
+                    position.y = 0;
+                    this->speed.y = 0;
+                }
             }
             break;
         case Direction::DOWN:
             std::cout << "MoveComponent::update DOWN bounds check" << std::endl;
-            if (this->speed.y > 0) {
-                position.y =
-                    this->screenBounds.y - objectDimensions.y;
-                this->speed.y = 0;
+            if (this->screenBoundBehavior == ScreenBoundBehavior::WRAP_AROUND) {
+                position.y = this->screenBounds.y - objectDimensions.y;
+                this->speed.y *= -1;
+            } else if (this->screenBoundBehavior == ScreenBoundBehavior::STOP_AT_BOUNDS) {
+                if (this->speed.y > 0) {
+                    position.y =
+                        this->screenBounds.y - objectDimensions.y;
+                    this->speed.y = 0;
+                }
             }
             break;
         case Direction::LEFT:
             std::cout << "MoveComponent::update LEFT bounds check" << std::endl;
-            if (this->speed.x < 0) {
+            if (this->screenBoundBehavior == ScreenBoundBehavior::WRAP_AROUND) {
                 position.x = 0;
-                this->speed.x = 0;
+                this->speed.x *= -1;
+            } else if (this->screenBoundBehavior == ScreenBoundBehavior::STOP_AT_BOUNDS) {
+                if (this->speed.x < 0) {
+                    position.x = 0;
+                    this->speed.x = 0;
+                }
             }
             break;
         case Direction::RIGHT:
             std::cout << "MoveComponent::update RIGHT bounds check" << std::endl;
-            if (this->speed.x > 0) {
-                position.x =
-                    this->screenBounds.x - objectDimensions.x;
-                this->speed.x = 0;
+            if (this->screenBoundBehavior == ScreenBoundBehavior::WRAP_AROUND) {
+                position.x = this->screenBounds.x - objectDimensions.x;
+                this->speed.x *= -1;
+            } else if (this->screenBoundBehavior == ScreenBoundBehavior::STOP_AT_BOUNDS) {
+                if (this->speed.x > 0) {
+                    position.x =
+                        this->screenBounds.x - objectDimensions.x;
+                    this->speed.x = 0;
+                }
             }
             break;
         default:
             break;
+        }
     }
+    
+    this->screenBoundStatus = boundsCheck;
     this->owner->setPosition(position);
 }
 
