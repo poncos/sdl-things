@@ -46,7 +46,10 @@ int SDLApp::run() {
     SDL_Event e;
     uint32_t lastTime = SDL_GetTicks();
     GameObject* myObject = new GameObject({100, 100}, {50, 50});
-            ;
+    GameObject* myObject2 = new GameObject({100, 500}, {50, 50});
+    myObject->setColor({255, 0, 0}); // Red
+    myObject2->setColor({0, 0, 255}); // Blue
+
     while (this->running) {
         uint32_t currentTime = SDL_GetTicks();
         float deltaTime = (currentTime - lastTime) / 1000.0f;
@@ -70,10 +73,15 @@ int SDLApp::run() {
         // Render your content here
         myObject->update(deltaTime);
         myObject->render(this->sdlRenderer);
+
+        myObject2->update(deltaTime);
+        myObject2->render(this->sdlRenderer);
+
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(15);
     }
-
+    delete myObject;
+    delete myObject2;
     return 0;
 }
 

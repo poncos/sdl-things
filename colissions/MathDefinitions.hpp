@@ -12,6 +12,12 @@ struct Vector2DI {
     int y;
 };
 
+struct Vector3DI {
+    int x;
+    int y;
+    int z;
+};
+
 enum class Direction {
     UP,
     DOWN,

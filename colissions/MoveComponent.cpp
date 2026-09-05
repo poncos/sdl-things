@@ -4,9 +4,9 @@
 #include <iostream>
 
 void MoveComponent::update(float deltaTime) {
-    std::cout << "MoveComponent::update with deltaTime: " << deltaTime  << " ge: " << this->gravityEnabled <<
-        " Speed: (" << this->speed.x << ", " << this->speed.y << ")" << 
-    std::endl;
+    // std::cout << "MoveComponent::update with deltaTime: " << deltaTime  << " ge: " << this->gravityEnabled <<
+    //     " Speed: (" << this->speed.x << ", " << this->speed.y << ")" << 
+    // std::endl;
 
     if (this->gravityEnabled) {
         this->speed.y += GRAVITY * deltaTime;

@@ -16,7 +16,6 @@ GameObject::~GameObject() {
 
 void GameObject::update(float deltaTime) {
     this->moveComponent->update(deltaTime);
-    
 }
 
 void GameObject::render(SDL_Renderer* renderer) {
@@ -27,6 +26,6 @@ void GameObject::render(SDL_Renderer* renderer) {
     rect.w = static_cast<float>(this->dimensions.x);
     rect.h = static_cast<float>(this->dimensions.y);
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Set color to red
+    SDL_SetRenderDrawColor(renderer, this->color.x, this->color.y, this->color.z, 255);
     SDL_RenderFillRect(renderer, &rect);
 }
