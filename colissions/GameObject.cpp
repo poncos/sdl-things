@@ -1,11 +1,12 @@
 #include "GameObject.hpp"
 
-GameObject::GameObject(struct Vector2DF position, struct Vector2DF dimensions)
-    : position(position), dimensions(dimensions) {
+GameObject::GameObject( SDLApp* app, struct Vector2DF position, struct Vector2DF dimensions)
+    : app(app), position(position), dimensions(dimensions) {
     // Initialize the bounding box component
     this->boundingBox = new SquareBoundingBox(this);
     this->moveComponent = new MoveComponent(this, {0, 0}, true, {1100, 900}, MoveComponent::ScreenBoundBehavior::WRAP_AROUND);
 
+    this->objectId = reinterpret_cast<uint64_t>(this);
 }
 
 GameObject::~GameObject() {

@@ -39,16 +39,25 @@ int SDLApp::init() {
     }
 
     this->running = true;
+
+    return this->initModel(); // Initialize the game model (create GameObjects)
+}
+
+int SDLApp::initModel() {
+    // Create two GameObjects with different positions and dimensions
+    GameObject* obj1 = new GameObject(this, {100, 100}, {50, 50});
+    GameObject* obj2 = new GameObject(this, {120, 120}, {50, 50});
+
+    // Add them to the gameObjects vector
+    this->gameObjects.push_back(obj1);
+    this->gameObjects.push_back(obj2);
+
     return 0;
 }
 
 int SDLApp::run() {
     SDL_Event e;
     uint32_t lastTime = SDL_GetTicks();
-    GameObject* myObject = new GameObject({100, 100}, {50, 50});
-    GameObject* myObject2 = new GameObject({100, 500}, {50, 50});
-    myObject->setColor({255, 0, 0}); // Red
-    myObject2->setColor({0, 0, 255}); // Blue
 
     while (this->running) {
         uint32_t currentTime = SDL_GetTicks();
@@ -71,17 +80,17 @@ int SDLApp::run() {
         SDL_RenderClear(this->sdlRenderer);
 
         // Render your content here
-        myObject->update(deltaTime);
-        myObject->render(this->sdlRenderer);
+        for (auto obj : this->gameObjects) {
+            obj->update(deltaTime);
+        }
 
-        myObject2->update(deltaTime);
-        myObject2->render(this->sdlRenderer);
+        for (auto obj : this->gameObjects) {
+            obj->render(this->sdlRenderer);
+        }
 
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(15);
     }
-    delete myObject;
-    delete myObject2;
     return 0;
 }
 
@@ -92,5 +101,9 @@ SDLApp::~SDLApp() {
 
     if (this->sdlWindow != NULL) {
         SDL_DestroyWindow(this->sdlWindow);
+    }
+
+    for (auto obj : this->gameObjects) {
+        delete obj;
     }
 }

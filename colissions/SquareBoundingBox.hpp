@@ -6,10 +6,10 @@ class SquareBoundingBox{
 
 public:
     enum CollisionType {
-        COLLISION_TOP,
-        COLLISION_BOTTOM,
-        COLLISION_LEFT,
-        COLLISION_RIGHT,
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
         NONE,
     };
 

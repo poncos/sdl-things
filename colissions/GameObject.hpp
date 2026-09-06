@@ -3,12 +3,13 @@
 #include "MathDefinitions.hpp"
 #include "SquareBoundingBox.hpp"
 #include "MoveComponent.hpp"
+#include "SDLApp.hpp"
 
 #include "SDL3/SDL.h"
 
 class GameObject {
 public:
-    GameObject(struct Vector2DF position, struct Vector2DF dimensions);
+    GameObject(SDLApp* app, struct Vector2DF position, struct Vector2DF dimensions);
     virtual ~GameObject();
 
     virtual void update(float deltaTime);
@@ -20,11 +21,16 @@ public:
     void setDimensions(const struct Vector2DF& newDimensions) { dimensions = newDimensions; }
     void setColor(const struct Vector3DI& newColor) { color = newColor; }
 
+    SquareBoundingBox *getBoundingBox() const { return boundingBox; }
+
 private:
+    uint64_t objectId;
     struct Vector2DF position;
     struct Vector2DF dimensions;
     struct Vector3DI color{255, 0, 0}; // Default color is red
 
     SquareBoundingBox* boundingBox;
     MoveComponent* moveComponent;
+
+    SDLApp *app;
 };
