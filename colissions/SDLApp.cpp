@@ -46,7 +46,7 @@ int SDLApp::init() {
 int SDLApp::initModel() {
     // Create two GameObjects with different positions and dimensions
     GameObject* obj1 = new GameObject(this, {100, 100}, {50, 50});
-    GameObject* obj2 = new GameObject(this, {120, 120}, {50, 50});
+    GameObject* obj2 = new GameObject(this, {100, 500}, {50, 50});
 
     // Add them to the gameObjects vector
     this->gameObjects.push_back(obj1);

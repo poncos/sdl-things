@@ -26,6 +26,7 @@ public:
     void update(float deltaTime);
     
     void setSpeed(struct Vector2DF speed) { this->speed = speed; }
+    struct Vector2DF getSpeed() { return this->speed; }
     enum Direction getScreenBoundStatus() const { return this->screenBoundStatus; }
 
 private:

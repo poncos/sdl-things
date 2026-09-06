@@ -33,4 +33,6 @@ private:
     MoveComponent* moveComponent;
 
     SDLApp *app;
+
+    void handleCollision();
 };

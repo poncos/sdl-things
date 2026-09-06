@@ -1,4 +1,5 @@
 #include<iostream>
+#include<SDL3/SDL.h>
 
 #include "SquareBoundingBox.hpp"
 #include "GameObject.hpp"
@@ -25,65 +26,62 @@ bool isLowest(float value, std::vector<float> otherValues) {
 }
 
 bool SquareBoundingBox::hasIntersect(const SquareBoundingBox& other) {
-    // thisSurface = SDLRect{one.getPosition().x, one.getPosition().y, one.getDimensions().x, one.getDimensions().y};
-    // othersurface = SDLRect{other.getPosition().x, other.getPosition().y, other.getDimensions().x, other.getDimensions().y};
+    SDL_Rect thisSurface = SDL_Rect{ 
+        (int)this->owner->getPosition().x,
+        (int)this->owner->getPosition().y,
+        (int)this->owner->getDimensions().x,
+        (int)this->owner->getDimensions().y
+    };
 
-    // bool hasIntersection = SDL_HasIntersection(&thisSurface, &othersurface);
-    // //std::cout << "HasIntersection between " << one.getName() << " and " << other.getName() << " is " << hasIntersection << std::endl;
+    SDL_Rect othersurface = SDL_Rect{ 
+        (int)other.owner->getPosition().x, 
+        (int)other.owner->getPosition().y, 
+        (int)other.owner->getDimensions().x,
+        (int)other.owner->getDimensions().y
+    };
 
-    // return hasIntersection;
-    return false; // Placeholder implementation
+    bool hasIntersection = SDL_HasRectIntersection(&thisSurface, &othersurface);
+    // std::cout << "HasIntersection between " << hasIntersection << std::endl;
+
+    return hasIntersection;
 }
 
 SquareBoundingBox::CollisionType SquareBoundingBox::intersect(const SquareBoundingBox& other) {
     // auto thisSurface = this->getSurface();
     // auto othersurface = other.getSurface();
+    bool hasIntersection = this->hasIntersect(other);
 
-    // std::cout << "Checking intersection between " << one.getName() << " and " << other.getName() 
-    // << " Surfaces: [" << thisSurface.x << "," << thisSurface.y << "," << thisSurface.w << "," << thisSurface.h << "] and ["
-    // << othersurface.x << "," << othersurface.y << "," << othersurface.w << "," << othersurface.h << "]"
-    // << std::endl;
+    if (!hasIntersection) {
+        return CollisionType::NONE;
+    }
 
-    // bool hasIntersection = SDL_HasIntersection(&thisSurface, &othersurface);
-    // //std::cout << "HasIntersection between " << one.getName() << " and " << other.getName() << " is " << hasIntersection << std::endl;
+    auto thisPosition = this->getPosition();
+    auto otherPosition = other.getPosition();
+    auto thisDimensions = this->getDimensions();
+    auto otherDimensions = other.getDimensions();
 
-    // if (!hasIntersection) {
-    //     //std::cout << "NO intersecction" << std::endl;
-    //     return NO_COLLISION;
-    // }
+    float thisBottom = thisPosition.y + thisDimensions.y;
+    float thisRight = thisPosition.x + thisDimensions.x;
+    float otherBottom = otherDimensions.y + otherPosition.y;
+    float otherRight = otherDimensions.x + otherPosition.x;
 
-    // // this->inCollision = hasIntersection;
+    float bottomOverlap = thisBottom - otherPosition.y;
+    float topOverlap = otherBottom - thisPosition.y;
+    float rightOverlap = thisRight - otherPosition.x;
+    float leftOverlap = otherRight - thisPosition.x;
 
-    // auto thisPosition = one.getPosition();
-    // auto otherPosition = other.getPosition();
-    // auto thisDimensions = one.getDimensions();
-    // auto otherDimensions = other.getDimensions();
-
-    // // std::cout << "colission: thisY: " << thisPosition.y << " , otherY: " << otherPosition.y <<
-    // //     " , thisX: " << thisPosition.x << ", otherX: " << otherPosition.x << " : " << std::endl;
-
-    // float thisBottom = thisPosition.y + thisDimensions.y;
-    // float thisRight = thisPosition.x + thisDimensions.x;
-    // float otherBottom = otherDimensions.y + otherPosition.y;
-    // float otherRight = otherDimensions.x + otherPosition.x;
-
-    // float bottomOverlap = thisBottom - otherPosition.y;
-    // float topOverlap = otherBottom - thisPosition.y;
-    // float rightOverlap = thisRight - otherPosition.x;
-    // float leftOverlap = otherRight - thisPosition.x;
-
-    // if (isLowest(bottomOverlap, {topOverlap, rightOverlap, leftOverlap})) {
-    //     //std::cout << "BOTTOM COLLISION" << std::endl;
-    //     return SQUARE_COLLISION_BOTTOM;
-    // } else if (isLowest(topOverlap, {bottomOverlap, rightOverlap, leftOverlap})) {
-    //     //std::cout << "TOP COLLISION" << std::endl;
-    //     return SQUARE_COLLISION_TOP;
-    // } else if (isLowest(rightOverlap, {bottomOverlap, topOverlap, leftOverlap})) {
-    //     //std::cout << "RIGHT COLLISION" << std::endl;
-    //     return SQUARE_COLLISION_RIGHT;
-    // } else {
-    //     //std::cout << "LEsFT COLLISION" << std::endl;
-    //     return SQUARE_COLLISION_LEFT;
-    // }
+    if (isLowest(bottomOverlap, {topOverlap, rightOverlap, leftOverlap})) {
+        //std::cout << "BOTTOM COLLISION" << std::endl;
+        return CollisionType::BOTTOM;
+    } else if (isLowest(topOverlap, {bottomOverlap, rightOverlap, leftOverlap})) {
+        //std::cout << "TOP COLLISION" << std::endl;
+        return CollisionType::TOP;
+    } else if (isLowest(rightOverlap, {bottomOverlap, topOverlap, leftOverlap})) {
+        //std::cout << "RIGHT COLLISION" << std::endl;
+        return CollisionType::RIGHT;
+    } else {
+        //std::cout << "LEsFT COLLISION" << std::endl;
+        return CollisionType::LEFT;
+    }
     return CollisionType::NONE; // Placeholder implementation
 }
