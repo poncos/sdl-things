@@ -69,11 +69,14 @@ int SDLApp::run() {
             }
         }
 
+        this->handleBackgroundCollisions();
+
         SDL_SetRenderDrawColor(this->sdlRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(this->sdlRenderer);
 
         this->renderBackground(this->sdlRenderer);
         this->renderObjects(this->sdlRenderer);
+
 
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(10);
@@ -104,6 +107,22 @@ void SDLApp::renderObjects(SDL_Renderer* renderer) {
 
 void SDLApp::handleBackgroundCollisions() {
 
+    int objectMidelPos = this->x + objectSize/2;
+    int slopeStartPos = windowWidth/2;
+    int slopeEndPos = slopeStartPos + 300;
+
+    if (objectMidelPos < slopeStartPos)
+        return;
+    if (objectMidelPos >= slopeStartPos && objectMidelPos < slopeEndPos) {
+        //this->x = slopeStartPos - objectSize/2;
+
+        float m = 100.0/300.0;
+        std::cout << "Slope: " << m << std::endl;
+        
+        float dx = objectMidelPos - slopeStartPos;
+        float dy = dx * m;
+        this->y = windowHeight - dy - objectSize;
+    }
 }
 
 SDLApp::~SDLApp() {

@@ -26,5 +26,6 @@ private:
 
     void renderBackground(SDL_Renderer* renderer);
     void renderObjects(SDL_Renderer* renderer);
+    void update();
     void handleBackgroundCollisions();
 };
