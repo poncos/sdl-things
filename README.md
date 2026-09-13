@@ -18,6 +18,8 @@ pkg-config --cflags --libs sdl3
 pkg-config --cflags --libs sdl3-image
 pkg-config --cflags --libs sdl3-ttf
 
+apt-get install libglfw3 libglfw3-dev libglfw3-doc
+pkg-config --cflags --libs glfw3
 
 # Instructions
 
