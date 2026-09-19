@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Find SDL3 using pkg-config on macOS/Homebrew
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL3 REQUIRED sdl3)
-pkg_check_modules(GLFW3 REQUIRED glfw3)   
 
 # Source files
 set(SOURCES
@@ -19,8 +18,6 @@ set(SOURCES
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${SDL3_INCLUDE_DIRS} 
-    ${GLFW3_INCLUDE_DIRS}
-)
-target_link_directories(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARY_DIRS} ${GLFW3_LIBRARY_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARIES} ${GLFW3_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${SDL3_INCLUDE_DIRS})
+target_link_directories(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL3_LIBRARIES})

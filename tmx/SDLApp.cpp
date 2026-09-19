@@ -17,7 +17,7 @@ int SDLApp::init() {
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
         1100, 900,
-        SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL
+        SDL_WINDOW_RESIZABLE
     );
 
     if (this->sdlWindow == NULL) {
