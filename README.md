@@ -21,6 +21,17 @@ pkg-config --cflags --libs sdl3-ttf
 apt-get install libglfw3 libglfw3-dev libglfw3-doc
 pkg-config --cflags --libs glfw3
 
+
+## TmxLite
+
+git clone https://github.com/fallahn/tmxlite.git
+cd tmxlite
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+sudo cmake --install build
+
+pkg-config -cflags --libs tmxlite
+
 # Instructions
 
 For the text sample, the path to the font file to use must be set on the file SDLApp.cpp:

@@ -1,6 +1,7 @@
 #include "SDLApp.hpp"
 #include <iostream>
 
+#include "TmxTileMap.hpp"
 
 SDLApp::SDLApp() {
     this->sdlWindow = NULL;
@@ -16,7 +17,7 @@ int SDLApp::init() {
 
     this->sdlWindow = SDL_CreateWindow(
         "SDL Template",
-        1100, 900,
+        1280, 1024,
         SDL_WINDOW_RESIZABLE
     );
 
@@ -42,6 +43,10 @@ int SDLApp::init() {
 int SDLApp::run() {
     SDL_Event e;
 
+    TmxTileMap map;
+
+    map.load("./assets/sample-slopes.tmx");
+
     while (this->running) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
@@ -59,6 +64,7 @@ int SDLApp::run() {
         SDL_RenderClear(this->sdlRenderer);
 
         // Render your content here
+        map.render(this->sdlRenderer);
 
         SDL_RenderPresent(this->sdlRenderer);
         SDL_Delay(10);
