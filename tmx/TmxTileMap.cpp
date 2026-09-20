@@ -99,11 +99,11 @@ u_int32_t TmxTileMap::findTilesetForTileID(
 
 void TmxTileMap::render(SDL_Renderer* renderer) {
 
-    std::cout << "Rendering map with " << this->tiles.size() << " tiles." << std::endl;
+    //std::cout << "Rendering map with " << this->tiles.size() << " tiles." << std::endl;
 
     for (const auto& tile : this->tiles) {
         const auto& tileset = this->tilesets[tile.tileGID];
-        std::cout << "Rendering tile with [GID,ID]["<< tile.index <<"]: [" << tile.tileGID << "," << tile.tileID << "] from tileset: " << tileset.name << std::endl;
+        //std::cout << "Rendering tile with [GID,ID]["<< tile.index <<"]: [" << tile.tileGID << "," << tile.tileID << "] from tileset: " << tileset.name << std::endl;
         
         SDL_Texture* tsTexture = createTexture(
             renderer,
@@ -143,8 +143,8 @@ void TmxTileMap::render(SDL_Renderer* renderer) {
             static_cast<int>(tileset.tileHeight)    
         };
         
-        std::cout << "\tSource Rect: [" << srcRect.x << "," << srcRect.y << "," << srcRect.w << "," << srcRect.h << "]" << std::endl;
-        std::cout << "\tDest Rect:   [" << destRect.x << "," << destRect.y << "," << destRect.w << "," << destRect.h << "]" << std::endl;
+        //std::cout << "\tSource Rect: [" << srcRect.x << "," << srcRect.y << "," << srcRect.w << "," << srcRect.h << "]" << std::endl;
+        //std::cout << "\tDest Rect:   [" << destRect.x << "," << destRect.y << "," << destRect.w << "," << destRect.h << "]" << std::endl;
 
         SDL_RenderTexture(renderer, tsTexture, &srcRect, &destRect);
     }
