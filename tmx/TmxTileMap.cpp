@@ -49,7 +49,17 @@ void TmxTileMap::load(const std::string& tmxFilePath) {
 
             std::cout << "***** Tileset with name: " << info.name << ", first GID: " << info.firstGID <<
             ", image: " << info.imagePath << std::endl;
+
+            const auto& tiles = tileset.getTiles();
+            for (const auto& tile : tiles) {
+                if (!tile.className.empty() || tile.properties.size() > 0) {
+                    std::cout << "\t *Tile: " << tile.className << ", " << tile.ID << ", " << tile.properties.size() << " properties." << std::endl;
+                    TileType tileInfo{tileset.getFirstGID(), tileset.getFirstGID()+tile.ID, tile.className, tile.properties};
+                    info.customTypes.emplace_back(tileInfo);
+                }
+            }
         }
+
     }
     return tilesetMap;
 }

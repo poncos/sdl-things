@@ -4,12 +4,21 @@
 #include <iostream>
 #include <unordered_map>
 #include <tmxlite/Map.hpp>
+#include <tmxlite/Property.hpp>
 #include <vector>
 #include <SDL3/SDL.h>
 
 class TmxTileMap {
 
 public:
+
+    struct TileType {
+        u_int32_t tileGID;
+        u_int32_t tileID;
+        std::string type;
+
+        std::vector<tmx::Property> properties;
+    };
 
     struct Tileset {
         u_int32_t firstGID;
@@ -19,6 +28,8 @@ public:
         u_int32_t tileHeight;
         u_int32_t tileCount;
         u_int32_t columnCount;
+
+        std::vector<TileType> customTypes;
     };
 
     struct Tile {
