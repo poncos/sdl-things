@@ -18,6 +18,8 @@ sdl_template
 *.swp
 *.swo
 *~
+*.tmx
+**/assets/**
 
 # macOS
 .DS_Store
