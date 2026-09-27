@@ -67,7 +67,7 @@ int SDLApp::run() {
         map.render(this->sdlRenderer);
 
         SDL_RenderPresent(this->sdlRenderer);
-        SDL_Delay(10);
+        //SDL_Delay(10);
     }
 
     return 0;

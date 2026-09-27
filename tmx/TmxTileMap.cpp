@@ -111,54 +111,53 @@ void TmxTileMap::render(SDL_Renderer* renderer) {
 
     //std::cout << "Rendering map with " << this->tiles.size() << " tiles." << std::endl;
 
-    for (const auto& tile : this->tiles) {
-        const auto& tileset = this->tilesets[tile.tileGID];
-        //std::cout << "Rendering tile with [GID,ID]["<< tile.index <<"]: [" << tile.tileGID << "," << tile.tileID << "] from tileset: " << tileset.name << std::endl;
-        
-        SDL_Texture* tsTexture = createTexture(
+    if (this->tsTexture == nullptr) {
+    this->tsTexture = createTexture(
             renderer,
-            tileset.imagePath
-        );
-
-        if (!tsTexture) {
-            std::cout << "\tFailed to get texture for tileset image: " << tileset.imagePath << std::endl;
-            continue;
-        }
-
-        // Calculate source rectangle in the texture with the image
-        Vector2DI srcPos = oneDimToTwoDim(
-            tile.tileID - tileset.firstGID,
-            tileset.columnCount,
-            tileset.tileWidth,
-            tileset.tileHeight
-        );
-
-        // Calculate the destination rectangle in the screen to render
-        Vector2DI destPos = oneDimToTwoDim(tile.index,
-            this->width,
-            this->tileWidth,
-            this->tileHeight);
-
-        SDL_FRect srcRect = {
-            srcPos.x,
-            srcPos.y,
-            static_cast<int>(tileset.tileWidth),
-            static_cast<int>(tileset.tileHeight)
-        };
-
-        SDL_FRect destRect = {
-            destPos.x,
-            destPos.y,
-            static_cast<int>(tileset.tileWidth),
-            static_cast<int>(tileset.tileHeight)    
-        };
-        
-        //std::cout << "\tSource Rect: [" << srcRect.x << "," << srcRect.y << "," << srcRect.w << "," << srcRect.h << "]" << std::endl;
-        //std::cout << "\tDest Rect:   [" << destRect.x << "," << destRect.y << "," << destRect.w << "," << destRect.h << "]" << std::endl;
-
-        SDL_RenderTexture(renderer, tsTexture, &srcRect, &destRect);
+            "./assets/full_custom.png"
+    );
     }
 
+    const auto tileWidthNorm = static_cast<float>(64.0f/this->tsTexture->w);
+    const auto tileHeightNorm = static_cast<float>(64.0f/this->tsTexture->h);
+    std::cout << "Norm Size: " << tileWidthNorm << "," << tileHeightNorm << std::endl;
+    std::cout << "Texture size " <<  this->tsTexture->w << "x" << this->tsTexture->h << std::endl;
+
+    std::vector<SDL_Vertex> vertexData;
+
+     for (const auto& tile : this->tiles) {
+        const auto& tileset = this->tilesets.at(tile.tileGID);
+
+        const std::uint32_t localTileID = tile.tileID - tileset.firstGID;
+        const std::uint32_t column = tile.index % static_cast<std::uint32_t>(this->width);
+        const std::uint32_t row = tile.index / static_cast<std::uint32_t>(this->width);
+        const float x0 = static_cast<float>(column * this->tileWidth);
+        const float y0 = static_cast<float>(row * this->tileHeight);
+        const float x1 = x0 + static_cast<float>(tileset.tileWidth);
+        const float y1 = y0 + static_cast<float>(tileset.tileHeight);
+
+        const float u0 = static_cast<float>((localTileID % tileset.columnCount) * tileset.tileWidth) / this->tsTexture->w;
+        const float v0 = static_cast<float>((localTileID / tileset.columnCount) * tileset.tileHeight) / this->tsTexture->h;
+        const float u1 = u0 + static_cast<float>(tileset.tileWidth) / this->tsTexture->w;
+        const float v1 = v0 + static_cast<float>(tileset.tileHeight) / this->tsTexture->h;
+
+        SDL_Vertex vtx1 = {{x0, y0}, {1.0f, 1.0f, 1.0f, 1.0f}, {u0, v0}};
+        vertexData.emplace_back(vtx1);
+        SDL_Vertex v2 = {{x1, y0}, {1.0f, 1.0f, 1.0f, 1.0f}, {u1, v0}};
+        vertexData.emplace_back(v2);
+        SDL_Vertex v3 = {{x1, y1}, {1.0f, 1.0f, 1.0f, 1.0f}, {u1, v1}};
+        vertexData.emplace_back(v3);
+        SDL_Vertex v4 = {{x0, y0}, {1.0f, 1.0f, 1.0f, 1.0f}, {u0, v0}};
+        vertexData.emplace_back(v4);
+        SDL_Vertex v5 = {{x0, y1}, {1.0f, 1.0f, 1.0f, 1.0f}, {u0, v1}};
+        vertexData.emplace_back(v5);
+        SDL_Vertex v6 = {{x1, y1}, {1.0f, 1.0f, 1.0f, 1.0f}, {u1, v1}};
+        vertexData.emplace_back(v6);
+    }
+
+    if (!SDL_RenderGeometry(renderer, this->tsTexture, vertexData.data(), static_cast<std::int32_t>(vertexData.size()), nullptr, 0)) {
+        SDL_Log("SDL_RenderGeometry failed: %s", SDL_GetError());
+    }
 }
 
 SDL_Texture* createTexture(SDL_Renderer* renderer, const std::string& fileName) {

@@ -58,6 +58,8 @@ private:
     std::vector<TmxTileMap::Tile> parseTileLayers(const tmx::Map& map,
         const std::unordered_map<std::uint32_t, Tileset>& tilesets);
 
+    SDL_Texture* tsTexture = nullptr;
+
     u_int32_t findTilesetForTileID(
         u_int32_t tileID,
         const std::unordered_map<u_int32_t, Tileset>& tilesets);
