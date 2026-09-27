@@ -48,6 +48,7 @@ public:
     ~TmxTileMap();
 
     void load(const std::string& tmxFilePath);
+    void load2(const std::string& tmxFilePath);
     void render(SDL_Renderer* renderer);
 
 private:

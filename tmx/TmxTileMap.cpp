@@ -10,6 +10,10 @@ TmxTileMap::~TmxTileMap() {
 
 }
 
+void TmxTileMap::load2(const std::string& tmxFilePath) {
+
+}
+
 void TmxTileMap::load(const std::string& tmxFilePath) {
     std::cout << "==================== Loading tileset from file [" << tmxFilePath << "]" << std::endl;
     tmx::Map map;
