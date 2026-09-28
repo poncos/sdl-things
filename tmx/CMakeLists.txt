@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 project(sdl_template)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find required libraries
 find_package(PkgConfig REQUIRED)

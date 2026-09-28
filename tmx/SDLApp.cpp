@@ -45,7 +45,7 @@ int SDLApp::run() {
 
     TmxTileMap map;
 
-    map.load("./assets/sample-slopes.tmx");
+    map.load("./assets/sample-slopes.tmx", 0);
 
     while (this->running) {
         while (SDL_PollEvent(&e)) {
