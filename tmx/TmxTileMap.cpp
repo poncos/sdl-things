@@ -7,7 +7,13 @@
 #include <SDL3_image/SDL_image.h>
 
 TmxTileMap::~TmxTileMap() {
-
+    
+    for (auto& layerRenderData : this->renderData) {
+        if (layerRenderData.texture != nullptr) {
+            SDL_DestroyTexture(layerRenderData.texture);
+            layerRenderData.texture = nullptr;
+        }
+    }
 }
 
 void TmxTileMap::load(const std::string& tmxFilePath, u_int32_t layerIndex) {

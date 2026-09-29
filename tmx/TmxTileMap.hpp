@@ -14,6 +14,9 @@ public:
     TmxTileMap() {};
     ~TmxTileMap();
 
+    TmxTileMap(const TmxTileMap&) = delete;
+    TmxTileMap& operator=(const TmxTileMap&) = delete;
+
     void load(const std::string& tmxFilePath, u_int32_t layerIndex);
     void render(SDL_Renderer* renderer);
 
