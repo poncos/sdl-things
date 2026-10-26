@@ -60,22 +60,22 @@ int SDLApp::run() {
     SpriteComponent sprite(1.0f, {100, 100});
     sprite.setTexture(bubbleTexture);
     sprite.setAnimationConfig(
-        {true, true, 0, 2000}
+        {true, true, 2000, 6000, 0}
     );
     SpriteComponent sprite2(1.0f, {250, 100});
     sprite2.setTexture(bubbleTexture);
     sprite2.setAnimationConfig(
-        {true, true, 2000, 2000}
+        {true, true, 2000, 6000, 2000}
     );
     SpriteComponent sprite3(1.0f, {400, 100});
     sprite3.setTexture(bubbleTexture);
     sprite3.setAnimationConfig(
-        {true, true, 4000, 2000}
+        {true, true, 2000, 6000, 4000}
     );
     SpriteComponent sprite4(1.0f, {550, 100});
     sprite4.setTexture(bubbleTexture);
     sprite4.setAnimationConfig(
-        {true, true, 6000, 2000}
+        {true, true, 2000, 6000, 6000}
     );
 
     while (this->running) {

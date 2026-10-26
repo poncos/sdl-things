@@ -13,12 +13,14 @@ void SpriteComponent::update(float deltaTimeSeconds) {
         //Update animation status
         if (this->animationConfig.lastTimeUpdated != 0L) {
             Uint32 deltaTimeMs = currentTime - this->animationConfig.lastTimeUpdated;
-            if ( deltaTimeMs >= this->animationConfig.waitTimeMs) {
+            int waitTime = (this->animationConfig.visible) ? this->animationConfig.visibleTimeMs:this->animationConfig.nonVisibleTimeMs;
+
+            if ( deltaTimeMs >= waitTime) {
                 this->animationConfig.visible = (this->animationConfig.visible) ? false:true;
                 this->animationConfig.lastTimeUpdated = currentTime;
             }
         } else {
-            if (currentTime >= this->animationConfig.delayMs)
+            if (currentTime > this->animationConfig.delayTimeMs)
                 this->animationConfig.lastTimeUpdated = currentTime;
         }
     }

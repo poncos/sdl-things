@@ -10,14 +10,15 @@ struct Point {
 struct AnimationConfig {
     bool flashingEnabled = false;
     bool visible = true;
-    int delayMs = 0;
-    int waitTimeMs = 0;
+    int nonVisibleTimeMs = 0;
+    int visibleTimeMs = 0;
+    int delayTimeMs = 0;
     long lastTimeUpdated = 0L;
 
     AnimationConfig(){}
 
-    AnimationConfig(bool flashing, bool visible, int delayMs, int waitTimeMs)
-    : flashingEnabled(flashing), visible (visible), delayMs(delayMs), waitTimeMs(waitTimeMs) {}
+    AnimationConfig(bool flashing, bool visible, int visibleTimeMs, int nonVisibleTimeMs, int delayTimeMs)
+    : flashingEnabled(flashing), visible (visible), visibleTimeMs(visibleTimeMs), nonVisibleTimeMs(nonVisibleTimeMs), delayTimeMs(delayTimeMs) {}
 };
 
 class SpriteComponent {
